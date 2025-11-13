@@ -137,108 +137,68 @@ header {
   display: flex;
   justify-content: space-between; /* 메뉴는 왼쪽, 검색은 오른쪽 */
   align-items: center;
-  flex-wrap: wrap; /* 좁은 화면에서 줄 바꿈 */
-  gap: 10px; /* 요소 간격 */
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-/* 메뉴 스타일 (둥근 네모박스) */
+/* 메뉴 박스 스타일 */
 nav {
   display: flex;
-  gap: 10px; /* 메뉴 간 간격 */
+  gap: 10px;
 }
 
 nav a {
   display: inline-block;
-  padding: 8px 15px;
-  background-color: #34495e; /* 기본 박스 색상 */
+  padding: 8px 18px;
+  background-color: #34495e;
   color: white;
+  border-radius: 12px;
   text-decoration: none;
   font-size: 1rem;
-  border-radius: 12px; /* 둥근 모서리 */
+  font-weight: 500;
   transition: all 0.3s ease;
 }
 
 nav a:hover {
-  background-color: #1E90FF; /* hover 색상 */
+  background-color: #1E90FF;
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 nav a.router-link-exact-active {
-  background-color: #1E90FF; /* 활성 메뉴 색상 */
-  font-weight: bold;
-  color: white;
-}
-
-/* 검색 필드 스타일 */
-.search-container {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.search-container input {
-  width: 200px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.search-container button {
-  padding: 8px 15px;
-  background-color: #42b983;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.search-container button:hover {
   background-color: #1E90FF;
+  color: white;
+  font-weight: 600;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
-/* 반응형 처리 */
+/* 반응형 */
 @media (max-width: 768px) {
   .header-bottom {
-    flex-direction: column; /* 하단 메뉴와 검색을 세로 정렬 */
+    flex-direction: column;
     align-items: flex-start;
   }
 
   nav {
-    flex-wrap: wrap; /* 좁으면 줄 바꿈 */
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    margin-bottom: 5px;
   }
 
   .search-container {
-    width: 100%; /* 검색 필드가 화면 너비에 맞게 늘어남 */
+    width: 100%;
   }
 
   .search-container input {
-    width: 100%; /* 검색 입력 필드 너비 100% */
-    max-width: 300px; /* 최대 너비 제한 */
+    width: 100%;
+    max-width: 300px;
   }
 }
 
-/* 애니메이션 정의 */
-@keyframes slide-up {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* 애니메이션 클래스 */
-.main-title {
-  opacity: 0;
-  transform: translateY(20px); /* 초기 위치 */
-  transition: opacity 1.5s ease, transform 1.5s ease; /* 스르륵 효과 */
-}
-
-.main-title.show {
-  opacity: 1;
-  transform: translateY(0); /* 제자리로 이동 */
-}
 </style>
