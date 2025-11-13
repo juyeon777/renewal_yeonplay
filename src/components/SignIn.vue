@@ -1,65 +1,76 @@
 <template>
-  <div class="auth-container">
+  <div>
     <!-- 로그인 및 회원가입 카드 -->
-    <div class="auth-card">
-      <!-- 로고 -->
-      <div class="auth-logo">
-        <h1>YeonPlay</h1>
-      </div>
-      <transition name="slide" mode="out-in">
-        <!-- 로그인 폼 -->
-        <form v-if="isLoginVisible" @submit.prevent="handleLogin" key="login">
-          <h2 class="form-title">로그인</h2>
-          <div class="input-group">
-            <input type="email" v-model="loginForm.email" placeholder="이메일" required />
-          </div>
-          <div class="input-group">
-            <input type="password" v-model="loginForm.password" placeholder="비밀번호" required />
-          </div>
-          <div class="checkbox-group">
-            <label>
-              <input type="checkbox" v-model="loginForm.rememberMe" />
-              <span>Remember me</span>
-            </label>
-          </div>
-          <button type="submit" :disabled="!isLoginFormValid" class="form-btn">로그인</button>
-          <p class="switch-form">
-            계정이 없으신가요? <span @click="toggleCard">회원가입</span>
-          </p>
-        </form>
+    <div v-if="showLogin" class="auth-container">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <h1>YeonPlay</h1>
+        </div>
+        <transition name="slide" mode="out-in">
+          <!-- 로그인 폼 -->
+          <form v-if="isLoginVisible" @submit.prevent="handleLogin" key="login">
+            <h2 class="form-title">로그인</h2>
+            <div class="input-group">
+              <input type="email" v-model="loginForm.email" placeholder="이메일" required />
+            </div>
+            <div class="input-group">
+              <input type="password" v-model="loginForm.password" placeholder="비밀번호" required />
+            </div>
+            <div class="checkbox-group">
+              <label>
+                <input type="checkbox" v-model="loginForm.rememberMe" />
+                <span>Remember me</span>
+              </label>
+            </div>
+            <button type="submit" :disabled="!isLoginFormValid" class="form-btn">로그인</button>
+            <p class="switch-form">
+              계정이 없으신가요? <span @click="toggleCard">회원가입</span>
+            </p>
+          </form>
 
-        <!-- 회원가입 폼 -->
-        <form v-else @submit.prevent="handleRegister" key="register">
-          <h2 class="form-title">회원가입</h2>
-          <div class="input-group">
-            <input type="text" v-model="registerForm.nickname" placeholder="닉네임" required />
-          </div>
-          <div class="input-group">
-            <input type="email" v-model="registerForm.email" placeholder="이메일" required />
-          </div>
-          <div class="input-group">
-            <input type="password" v-model="registerForm.password" placeholder="비밀번호" required />
-          </div>
-          <div class="input-group">
-            <input
-              type="password"
-              v-model="registerForm.confirmPassword"
-              placeholder="비밀번호 확인"
-              required
-            />
-          </div>
-          <div class="checkbox-group">
-            <label>
-              <input type="checkbox" v-model="registerForm.acceptTerms" />
-              <span>약관에 동의합니다</span>
-            </label>
-          </div>
-          <button type="submit" :disabled="!isRegisterFormValid" class="form-btn">회원가입</button>
-          <p class="switch-form">
-            이미 계정이 있으신가요? <span @click="toggleCard">로그인</span>
-          </p>
-        </form>
-      </transition>
+          <!-- 회원가입 폼 -->
+          <form v-else @submit.prevent="handleRegister" key="register">
+            <h2 class="form-title">회원가입</h2>
+            <div class="input-group">
+              <input type="text" v-model="registerForm.nickname" placeholder="닉네임" required />
+            </div>
+            <div class="input-group">
+              <input type="email" v-model="registerForm.email" placeholder="이메일" required />
+            </div>
+            <div class="input-group">
+              <input type="password" v-model="registerForm.password" placeholder="비밀번호" required />
+            </div>
+            <div class="input-group">
+              <input
+                type="password"
+                v-model="registerForm.confirmPassword"
+                placeholder="비밀번호 확인"
+                required
+              />
+            </div>
+            <div class="checkbox-group">
+              <label>
+                <input type="checkbox" v-model="registerForm.acceptTerms" />
+                <span>약관에 동의합니다</span>
+              </label>
+            </div>
+            <button type="submit" :disabled="!isRegisterFormValid" class="form-btn">회원가입</button>
+            <p class="switch-form">
+              이미 계정이 있으신가요? <span @click="toggleCard">로그인</span>
+            </p>
+          </form>
+        </transition>
+      </div>
+    </div>
+
+    <!-- 스플래시 화면 -->
+    <div v-if="showSplash" class="splash-screen">
+      <div class="splash-logo">YeonPlay</div>
+      <h1 class="main-title">YeonPlay: 영화의 모든 것</h1>
+      <p class="subtitle">최고의 영화 경험을 지금 시작하세요!</p>
+      <div class="loader">
+        <div></div><div></div><div></div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,13 +81,15 @@ export default {
   data() {
     return {
       isLoginVisible: true,
+      showLogin: true,
+      showSplash: false,
       loginForm: {
         email: "",
         password: "",
         rememberMe: false,
       },
       registerForm: {
-        nickname: "", // 닉네임 추가
+        nickname: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -90,7 +103,7 @@ export default {
     },
     isRegisterFormValid() {
       return (
-        !!this.registerForm.nickname && // 닉네임 입력 여부 확인
+        !!this.registerForm.nickname &&
         !!this.registerForm.email &&
         !!this.registerForm.password &&
         this.registerForm.password === this.registerForm.confirmPassword &&
@@ -104,36 +117,35 @@ export default {
     },
     handleLogin() {
       const { email, password } = this.loginForm;
-
-      // 로컬 스토리지에 저장된 사용자 정보 가져오기
       const storedEmail = localStorage.getItem("userEmail");
       const storedPassword = localStorage.getItem("userPassword");
-      const storedNickname = localStorage.getItem("userNickname"); // 닉네임 가져오기
+      const storedNickname = localStorage.getItem("userNickname");
 
       if (email === storedEmail && password === storedPassword) {
-        // 로그인 성공
-        localStorage.setItem("isLoggedIn", "true"); // 로그인 상태 저장
-        localStorage.setItem("loggedInUser", storedNickname); // 닉네임을 로그인 사용자로 설정
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("loggedInUser", storedNickname);
 
-        alert("로그인 성공!");
+        // 로그인 화면 숨기고 스플래시 화면 표시
+        this.showLogin = false;
+        this.showSplash = true;
 
-        // 홈 페이지로 이동
-        this.$router.push({ name: "Home" }); // "Home"은 라우터에서 정의된 경로 이름
+        setTimeout(() => {
+          this.showSplash = false;
+          this.$router.push({ name: "Home" });
+        }, 2500); // 2.5초
       } else {
         alert("이메일 또는 비밀번호가 일치하지 않습니다.");
       }
     },
     handleRegister() {
       const { nickname, email, password } = this.registerForm;
-
-      // 사용자 정보를 로컬 스토리지에 저장
-      localStorage.setItem("userNickname", nickname); // 닉네임 저장
+      localStorage.setItem("userNickname", nickname);
       localStorage.setItem("userEmail", email);
       localStorage.setItem("userPassword", password);
-      localStorage.setItem("isLoggedIn", "false"); // 기본값은 로그인되지 않음
+      localStorage.setItem("isLoggedIn", "false");
 
       alert("회원가입 성공!");
-      this.toggleCard(); // 회원가입 완료 후 로그인 화면으로 전환
+      this.toggleCard();
     },
   },
 };
