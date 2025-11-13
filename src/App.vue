@@ -80,7 +80,6 @@ export default {
 };
 </script>
 
-
 <style>
 /* 기본 스타일 */
 #app {
@@ -142,24 +141,32 @@ header {
   gap: 10px; /* 요소 간격 */
 }
 
+/* 메뉴 스타일 (둥근 네모박스) */
 nav {
   display: flex;
-  gap: 20px; /* 메뉴 간 간격 */
+  gap: 10px; /* 메뉴 간 간격 */
 }
 
 nav a {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: #34495e; /* 기본 박스 색상 */
   color: white;
   text-decoration: none;
   font-size: 1rem;
+  border-radius: 12px; /* 둥근 모서리 */
+  transition: all 0.3s ease;
 }
 
 nav a:hover {
-  color: #1E90FF;
+  background-color: #1E90FF; /* hover 색상 */
+  color: white;
 }
 
 nav a.router-link-exact-active {
+  background-color: #1E90FF; /* 활성 메뉴 색상 */
   font-weight: bold;
-  color: #1E90FF;
+  color: white;
 }
 
 /* 검색 필드 스타일 */
@@ -197,6 +204,10 @@ nav a.router-link-exact-active {
     align-items: flex-start;
   }
 
+  nav {
+    flex-wrap: wrap; /* 좁으면 줄 바꿈 */
+  }
+
   .search-container {
     width: 100%; /* 검색 필드가 화면 너비에 맞게 늘어남 */
   }
@@ -206,6 +217,7 @@ nav a.router-link-exact-active {
     max-width: 300px; /* 최대 너비 제한 */
   }
 }
+
 /* 애니메이션 정의 */
 @keyframes slide-up {
   from {
@@ -229,5 +241,4 @@ nav a.router-link-exact-active {
   opacity: 1;
   transform: translateY(0); /* 제자리로 이동 */
 }
-
 </style>
